@@ -22,4 +22,12 @@ public class MultipleSampleThreadException extends Exception {
 	 */
 	private static final long serialVersionUID = 6050042574204598148L;
 
+	public MultipleSampleThreadException() {
+		super();
+	}
+
+	public MultipleSampleThreadException(String message) {
+		super(message);
+	}
+
 }
