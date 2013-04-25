@@ -18,7 +18,7 @@ import cn.ac.iscas.iel.csdtp.exception.MultipleSampleThreadException;
 
 public class MainActivity extends Activity implements SensorEventListener {
 
-	private static final String SERVER_IP = "192.168.1.109";
+	private static final String SERVER_IP = "192.168.1.117";
 	private static final int PORT = 1234;
 
 	private Device mDevice;

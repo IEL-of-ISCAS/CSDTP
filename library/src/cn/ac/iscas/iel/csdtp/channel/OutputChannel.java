@@ -6,9 +6,9 @@
  */
 package cn.ac.iscas.iel.csdtp.channel;
 
-import cn.ac.iscas.iel.csdtp.data.Frame;
+import org.codehaus.jackson.map.ObjectMapper;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import cn.ac.iscas.iel.csdtp.data.Frame;
 
 /**
  * Abstract the communication channel
