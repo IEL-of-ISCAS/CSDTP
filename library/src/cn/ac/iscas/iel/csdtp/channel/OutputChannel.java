@@ -33,6 +33,8 @@ public abstract class OutputChannel {
 	public OutputChannel() {
 		this.mMapper = new ObjectMapper();
 	}
+	
+	public abstract void prepare();
 
 	/**
 	 * Send frame data with the communication channel

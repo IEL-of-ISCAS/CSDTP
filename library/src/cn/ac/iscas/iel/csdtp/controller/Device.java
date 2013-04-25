@@ -136,6 +136,15 @@ public class Device {
 	 * @throws MultipleSampleThreadException
 	 */
 	public void startSampling() throws MultipleSampleThreadException {
+		if (mSenderThread == null || !mSenderThread.isAlive()) {
+			try {
+				mSenderThread = new SenderThread();
+				mSenderThread.start();
+			} catch (ChannelNotSetException e) {
+				e.printStackTrace();
+			}
+		}
+
 		if (mSampleThread.isAlive()) {
 			throw new MultipleSampleThreadException(
 					"There is a working sample thread, if you want to start a new one, call stopSampling() first.");
@@ -155,15 +164,6 @@ public class Device {
 	public void stopSampling() {
 		if (mSampleThread != null && mSampleThread.isAlive()) {
 			mSampleThread.makeStop();
-		}
-	}
-
-	public void startSending() {
-		try {
-			mSenderThread = new SenderThread();
-			mSenderThread.start();
-		} catch (ChannelNotSetException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -228,7 +228,7 @@ public class Device {
 		DataFrame theFrame = new DataFrame(Device.this);
 		for (Sensor sensor : mSensorList) {
 			SensorData<?> theData = sensor.getSnapshot();
-			if(theData.isValidData()) { // Only send valid data
+			if (theData.isValidData()) { // Only send valid data
 				theFrame.addNewData(theData);
 			}
 		}
@@ -319,6 +319,8 @@ public class Device {
 
 		@Override
 		public void run() {
+			mOutChannel.prepare();
+
 			while (mSending) {
 				Frame frame = mFrameOutQueue.poll();
 				if (frame != null) {

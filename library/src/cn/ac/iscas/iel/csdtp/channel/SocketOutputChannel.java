@@ -9,6 +9,7 @@ package cn.ac.iscas.iel.csdtp.channel;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 import cn.ac.iscas.iel.csdtp.data.Frame;
 
@@ -26,10 +27,28 @@ public class SocketOutputChannel extends OutputChannel {
 	protected Socket mSenderSocket;
 	protected DataOutputStream mOutStream;
 
-	public SocketOutputChannel(Socket socket) throws IOException {
+	protected String mIp;
+	protected int mPort;
+
+	public SocketOutputChannel(String ip, int port) {
 		super();
-		mSenderSocket = socket;
-		mOutStream = new DataOutputStream(mSenderSocket.getOutputStream());
+		mIp = ip;
+		mPort = port;
+	}
+
+	@Override
+	public void prepare() {
+		try {
+			mSenderSocket = new Socket(mIp, mPort);
+			mSenderSocket.setTcpNoDelay(true);
+			mSenderSocket.setKeepAlive(true);
+			
+			mOutStream = new DataOutputStream(mSenderSocket.getOutputStream());
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
