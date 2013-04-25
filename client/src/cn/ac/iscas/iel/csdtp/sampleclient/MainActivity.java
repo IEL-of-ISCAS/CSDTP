@@ -10,6 +10,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
 import android.view.View;
 import cn.ac.iscas.iel.csdtp.channel.SocketOutputChannel;
@@ -25,7 +26,7 @@ import cn.ac.iscas.iel.csdtp.exception.MultipleSampleThreadException;
 
 public class MainActivity extends Activity implements SensorEventListener {
 
-	private static final String SERVER_IP = "192.168.1.117";
+	private static final String SERVER_IP = "192.168.1.109";
 	private static final int PORT = 1234;
 
 	private View mMainView;
@@ -45,7 +46,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+
 		mMainView = findViewById(R.id.main_layout);
 
 		mDevice = new Device("android");
@@ -68,24 +69,101 @@ public class MainActivity extends Activity implements SensorEventListener {
 			mDevice.registerSensor(mAccSensor);
 			mDevice.registerSensor(mMagSensor);
 			mDevice.registerSensor(mRotSensor);
+			mDevice.registerSensor(mTouchSensor);
 		} catch (ChangeSensorWhileCollectingDataException e) {
 			e.printStackTrace();
 		}
-		
+
 		mMainView.setOnTouchListener(new View.OnTouchListener() {
-			
+
+			@SuppressWarnings("unchecked")
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				List<TouchPoint> rawData = new ArrayList<TouchPoint>();
-				for(int i = 0;i < event.getPointerCount();i ++) {
-					TouchPoint tp = new TouchPoint(event.getPointerId(i), 
-							event.getAxisValue(MotionEvent.AXIS_X, i), 
-							event.getAxisValue(MotionEvent.AXIS_Y, i));
-					rawData.add(tp);
+				// Initial data
+				if (mTouchSensor.getSnapshot() == null
+						|| !mTouchSensor.getSnapshot().isValidData()) {
+					List<TouchPoint> emptyData = new ArrayList<TouchPoint>();
+					mTouchSensor
+							.updateSnapshot(new SensorData<List<TouchPoint>>(
+									emptyData));
 				}
-				SensorData<List<TouchPoint>> touchData = new SensorData<List<TouchPoint>>(rawData);
-				mTouchSensor.updateSnapshot(touchData);
-				return false;
+
+				List<TouchPoint> data = (List<TouchPoint>) mTouchSensor
+						.getSnapshot().getData();
+
+				final int action = MotionEventCompat.getActionMasked(event);
+
+				switch (action) {
+				case MotionEvent.ACTION_DOWN: {
+					final int pointerIndex = MotionEventCompat
+							.getActionIndex(event);
+					final float x = MotionEventCompat.getX(event, pointerIndex);
+					final float y = MotionEventCompat.getY(event, pointerIndex);
+					final int pointerId = MotionEventCompat.getPointerId(event,
+							0);
+					data.add(new TouchPoint(pointerId, x, y));
+					break;
+				}
+
+				case MotionEvent.ACTION_POINTER_DOWN: {
+					final int pointerIndex = MotionEventCompat
+							.getActionIndex(event);
+					final int pointerId = MotionEventCompat.getPointerId(event,
+							pointerIndex);
+					final float x = MotionEventCompat.getX(event, pointerIndex);
+					final float y = MotionEventCompat.getY(event, pointerIndex);
+
+					data.add(new TouchPoint(pointerId, x, y));
+					break;
+				}
+
+				case MotionEvent.ACTION_MOVE: {
+					List<TouchPoint> newData = new ArrayList<TouchPoint>();
+					for (TouchPoint tp : data) {
+						final int pointerId = tp.getPointId();
+						final int pointerIdx = MotionEventCompat
+								.findPointerIndex(event, pointerId);
+						final float x = MotionEventCompat.getX(event,
+								pointerIdx);
+						final float y = MotionEventCompat.getY(event,
+								pointerIdx);
+						TouchPoint newTp = new TouchPoint(pointerId, x, y);
+						newData.add(newTp);
+					}
+					data = newData;
+					break;
+				}
+
+				case MotionEvent.ACTION_UP: {
+					data.clear();
+					break;
+				}
+
+				case MotionEvent.ACTION_CANCEL: {
+					data.clear();
+					break;
+				}
+
+				case MotionEvent.ACTION_POINTER_UP: {
+					final int pointerIndex = MotionEventCompat
+							.getActionIndex(event);
+					final int pointerId = MotionEventCompat.getPointerId(event,
+							pointerIndex);
+
+					for (TouchPoint tp : data) {
+						if (tp.getPointId() == pointerId) {
+							data.remove(tp);
+							break;
+						}
+					}
+					break;
+				}
+				}
+
+				SensorData<List<TouchPoint>> newSnapshot = new SensorData<List<TouchPoint>>(
+						data);
+				mTouchSensor.updateSnapshot(newSnapshot);
+				return true;
 			}
 		});
 	}
