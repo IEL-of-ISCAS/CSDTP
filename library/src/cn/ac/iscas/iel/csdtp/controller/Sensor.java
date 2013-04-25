@@ -50,12 +50,12 @@ public abstract class Sensor {
 	/**
 	 * The actual data for the frame
 	 */
-	protected SensorData mSnapshot;
+	protected SensorData<?> mSnapshot;
 
 	/**
 	 * Update the snapshot with a new data, this method is thread-safe
 	 */
-	public synchronized void updateSnapshot(SensorData newData) {
+	public synchronized void updateSnapshot(SensorData<?> newData) {
 		mSnapshot = newData;
 	}
 
@@ -64,7 +64,9 @@ public abstract class Sensor {
 	 * 
 	 * @return current snap shot
 	 */
-	public SensorData getSnapshot() {
+	public SensorData<?> getSnapshot() {
+		// Set the sensor name while collected from sensor
+		mSnapshot.setSensorName(getSensorName());
 		return mSnapshot;
 	}
 

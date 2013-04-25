@@ -11,6 +11,8 @@ import cn.ac.iscas.iel.csdtp.controller.Device;
 /**
  * The frame that contains control info for server to setup/cleanup
  * 
+ * *Still under discussion*
+ * 
  * @Project CSDTP
  * @Package cn.ac.iscas.iel.csdtp.data
  * @Class ControlFrame

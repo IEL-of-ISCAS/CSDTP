@@ -22,26 +22,26 @@ import cn.ac.iscas.iel.csdtp.controller.Device;
  */
 public class DataFrame extends Frame {
 
-	public DataFrame(Device theDevice) {
-		super(theDevice);
-
-		mSensorDataset = new ArrayList<SensorData>();
-	}
-
 	/**
 	 * A list of data collected from all registered sensors
 	 */
-	protected List<SensorData> mSensorDataset;
+	protected List<SensorData<?>> mSensorDataset;
 
-	public void addNewData(SensorData data) {
+	public DataFrame(Device theDevice) {
+		super(theDevice);
+
+		mSensorDataset = new ArrayList<SensorData<?>>();
+	}
+
+	public void addNewData(SensorData<?> data) {
 		mSensorDataset.add(data);
 	}
-	
-	public List<SensorData> getSensorDataset() {
+
+	public List<SensorData<?>> getSensorDataset() {
 		return mSensorDataset;
 	}
-	
-	public void setSensorDataset(List<SensorData> dataset) {
+
+	public void setSensorDataset(List<SensorData<?>> dataset) {
 		mSensorDataset = dataset;
 	}
 

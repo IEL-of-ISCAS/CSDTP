@@ -14,10 +14,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import cn.ac.iscas.iel.csdtp.channel.OutputChannel;
-import cn.ac.iscas.iel.csdtp.data.ControlFrame;
 import cn.ac.iscas.iel.csdtp.data.DataFrame;
 import cn.ac.iscas.iel.csdtp.data.Frame;
-import cn.ac.iscas.iel.csdtp.data.ControlFrame.ControlType;
+import cn.ac.iscas.iel.csdtp.data.SensorData;
 import cn.ac.iscas.iel.csdtp.exception.ChangeSensorWhileCollectingDataException;
 import cn.ac.iscas.iel.csdtp.exception.ChannelNotSetException;
 import cn.ac.iscas.iel.csdtp.exception.MultipleSampleThreadException;
@@ -173,10 +172,6 @@ public class Device {
 	 */
 	public void stopSending() {
 		if (mSenderThread != null && mSenderThread.isAlive()) {
-			Frame disconnectFrame = new ControlFrame(Device.this,
-					ControlType.DISCONNECT);
-			pushToSendQueue(disconnectFrame);
-
 			mSenderThread.makeStop();
 		}
 	}
@@ -232,7 +227,10 @@ public class Device {
 	public Frame genFrame() {
 		DataFrame theFrame = new DataFrame(Device.this);
 		for (Sensor sensor : mSensorList) {
-			theFrame.addNewData(sensor.getSnapshot());
+			SensorData<?> theData = sensor.getSnapshot();
+			if(theData.isValidData()) { // Only send valid data
+				theFrame.addNewData(theData);
+			}
 		}
 		return theFrame;
 	}
@@ -280,9 +278,6 @@ public class Device {
 
 		@Override
 		public void run() {
-			Frame connectFrame = new ControlFrame(Device.this,
-					ControlType.CONNECT);
-			pushToSendQueue(connectFrame);
 			while (mRunning) {
 				try {
 					Frame newFrame = genFrame();
