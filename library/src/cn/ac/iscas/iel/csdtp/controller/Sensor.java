@@ -66,7 +66,9 @@ public abstract class Sensor {
 	 */
 	public SensorData<?> getSnapshot() {
 		// Set the sensor name while collected from sensor
-		mSnapshot.setSensorName(getSensorName());
+		if(mSnapshot != null) {
+			mSnapshot.setSensorName(getSensorName());
+		}
 		return mSnapshot;
 	}
 

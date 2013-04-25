@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import org.codehaus.jackson.map.ObjectWriter;
+
 import cn.ac.iscas.iel.csdtp.data.Frame;
 
 /**
@@ -42,7 +44,7 @@ public class SocketOutputChannel extends OutputChannel {
 			mSenderSocket = new Socket(mIp, mPort);
 			mSenderSocket.setTcpNoDelay(true);
 			mSenderSocket.setKeepAlive(true);
-			
+
 			mOutStream = new DataOutputStream(mSenderSocket.getOutputStream());
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
@@ -54,8 +56,14 @@ public class SocketOutputChannel extends OutputChannel {
 	@Override
 	public void sendFrame(Frame frameData) {
 		try {
-			mMapper.writeValue(mOutStream, frameData);
-			mOutStream.flush();
+			if (mMapper.canSerialize(frameData.getClass())) {
+				ObjectWriter writer = mMapper.writer();
+				String jsonContent = writer.writeValueAsString(frameData);
+				mOutStream.writeUTF(jsonContent);
+				mOutStream.flush();
+			} else {
+				System.out.println("cannot serialize the object");
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
