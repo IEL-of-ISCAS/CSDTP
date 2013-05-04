@@ -6,6 +6,8 @@
  */
 package cn.ac.iscas.iel.csdtp.data;
 
+import java.util.Date;
+
 import cn.ac.iscas.iel.csdtp.controller.Device;
 
 /**
@@ -31,6 +33,7 @@ public abstract class Frame {
 	public Frame(Device theDevice) {
 		mDeviceName = theDevice.getDeviceName();
 		mInnerUUID = theDevice.getInnerUUID();
+		mTimestamp = new Date();
 	}
 	
 	public String getDeviceName() {
@@ -47,6 +50,16 @@ public abstract class Frame {
 	
 	public void setInnerUUID(String innerUUID) {
 		mInnerUUID = innerUUID;
+	}
+	
+	protected Date mTimestamp;
+
+	public Date getTimestamp() {
+		return mTimestamp;
+	}
+
+	public void setTimestamp(Date timestamp) {
+		this.mTimestamp = timestamp;
 	}
 
 }
