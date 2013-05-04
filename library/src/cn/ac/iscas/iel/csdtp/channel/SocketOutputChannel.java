@@ -58,7 +58,7 @@ public class SocketOutputChannel extends OutputChannel {
 		try {
 			if (mMapper.canSerialize(frameData.getClass())) {
 				ObjectWriter writer = mMapper.writer();
-				String jsonContent = writer.writeValueAsString(frameData);
+				String jsonContent = writer.writeValueAsString(frameData) + "\n";
 				mOutStream.writeUTF(jsonContent);
 				mOutStream.flush();
 			} else {

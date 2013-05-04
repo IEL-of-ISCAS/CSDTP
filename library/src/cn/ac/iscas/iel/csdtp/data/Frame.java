@@ -34,6 +34,7 @@ public abstract class Frame {
 		mDeviceName = theDevice.getDeviceName();
 		mInnerUUID = theDevice.getInnerUUID();
 		mTimestamp = new Date();
+		mMsgType = 15; // For test
 	}
 	
 	public String getDeviceName() {
@@ -60,6 +61,16 @@ public abstract class Frame {
 
 	public void setTimestamp(Date timestamp) {
 		this.mTimestamp = timestamp;
+	}
+	
+	protected int mMsgType;
+	
+	public void setMsgType(int msgType) {
+		mMsgType = msgType;
+	}
+	
+	public int getMsgType() {
+		return mMsgType;
 	}
 
 }
