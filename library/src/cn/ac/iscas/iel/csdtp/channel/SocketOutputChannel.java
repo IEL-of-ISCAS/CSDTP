@@ -67,12 +67,15 @@ public class SocketOutputChannel extends OutputChannel {
 				mOutStream.writeUTF(jsonContent);
 				mOutStream.flush();
 
-				String responseDataStr = mInStream.readUTF();
-				ResponseData data = mMapper.readValue(responseDataStr,
-						ResponseData.class);
-				if (mCallback != null) {
-					mCallback.onResponse(data);
+				if (frameData.getMsgType() < 5) {
+					String responseDataStr = mInStream.readUTF();
+					ResponseData data = mMapper.readValue(responseDataStr,
+							ResponseData.class);
+					if (mCallback != null) {
+						mCallback.onResponse(data);
+					}
 				}
+
 			} else {
 				System.out.println("cannot serialize the object");
 			}

@@ -92,7 +92,7 @@ public abstract class Frame {
 	public static final int MSG_TYPE_RAYCASTMANIPULATOR      = 13;
 	public static final int MSG_TYPE_TRACKBALLMANIPULATOR    = 14;
 	public static final int MSG_TYPE_FLIGHTMANIPULATOR       = 15;
-	public static final int MSG_TYPE_UFOMANIPULATOR          = 16;
+	public static final int MSG_TYPE_DRIVERMANIPULATOR       = 16;
 	public static final int MSG_TYPE_NAVMANIPULATOR          = 17;
 	
 	/**
