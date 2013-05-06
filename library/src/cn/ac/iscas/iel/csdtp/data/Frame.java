@@ -30,29 +30,29 @@ public abstract class Frame {
 	 */
 	protected String mInnerUUID;
 
-	public Frame(Device theDevice) {
+	public Frame(Device theDevice, int msgType) {
 		mDeviceName = theDevice.getDeviceName();
 		mInnerUUID = theDevice.getInnerUUID();
 		mTimestamp = new Date();
-		mMsgType = 15; // For test
+		setMsgType(msgType);
 	}
-	
+
 	public String getDeviceName() {
 		return mDeviceName;
 	}
-	
+
 	public void setDeviceName(String deviceName) {
 		mDeviceName = deviceName;
 	}
-	
+
 	public String getInnerUUID() {
 		return mInnerUUID;
 	}
-	
+
 	public void setInnerUUID(String innerUUID) {
 		mInnerUUID = innerUUID;
 	}
-	
+
 	protected Date mTimestamp;
 
 	public Date getTimestamp() {
@@ -62,15 +62,37 @@ public abstract class Frame {
 	public void setTimestamp(Date timestamp) {
 		this.mTimestamp = timestamp;
 	}
-	
+
 	protected int mMsgType;
-	
+
 	public void setMsgType(int msgType) {
 		mMsgType = msgType;
 	}
-	
+
 	public int getMsgType() {
 		return mMsgType;
 	}
+
+	/**
+	 * Message types
+	 */
+	public static final int MSG_TYPE_NONE                    = 0;
+	public static final int MSG_TYPE_NEWCONNECT              = 1;
+	public static final int MSG_TYPE_DISCONNECT              = 2;
+	public static final int MSG_TYPE_GIVEUPCONTROL           = 3;
+	public static final int MSG_TYPE_REQUESTCONTROL          = 4;
+	public static final int MSG_TYPE_LOCKNAV                 = 5;
+	public static final int MSG_TYPE_UNLOCKNAV               = 6;
+	public static final int MSG_TYPE_PUSH                    = 7;
+	public static final int MSG_TYPE_RELEASE                 = 8;
+	public static final int MSG_TYPE_DRAG                    = 9;
+	public static final int MSG_TYPE_MOVE                    = 10;
+	public static final int MSG_TYPE_VOLUMEUP                = 11;
+	public static final int MSG_TYPE_VOLUMEDOWN              = 12;
+	public static final int MSG_TYPE_RAYCASTMANIPULATOR      = 13;
+	public static final int MSG_TYPE_TRACKBALLMANIPULATOR    = 14;
+	public static final int MSG_TYPE_FLIGHTMANIPULATOR       = 15;
+	public static final int MSG_TYPE_UFOMANIPULATOR          = 16;
+	public static final int MSG_TYPE_NAVMANIPULATOR          = 17;
 
 }

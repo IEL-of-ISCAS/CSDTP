@@ -27,8 +27,8 @@ public class DataFrame extends Frame {
 	 */
 	protected List<SensorData<?>> mSensorDataset;
 
-	public DataFrame(Device theDevice) {
-		super(theDevice);
+	public DataFrame(Device theDevice, int msgType) {
+		super(theDevice, msgType);
 
 		mSensorDataset = new ArrayList<SensorData<?>>();
 	}

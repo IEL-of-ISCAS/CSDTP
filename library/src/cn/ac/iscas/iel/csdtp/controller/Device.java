@@ -224,8 +224,8 @@ public class Device {
 	 * 
 	 * @return the new composed frame
 	 */
-	public Frame genFrame() {
-		DataFrame theFrame = new DataFrame(Device.this);
+	public Frame genFrame(int msgType) {
+		DataFrame theFrame = new DataFrame(Device.this, msgType);
 		for (Sensor sensor : mSensorList) {
 			SensorData<?> theData = sensor.getSnapshot();
 			if (theData != null && theData.isValidData()) { // Only send valid data
@@ -280,7 +280,7 @@ public class Device {
 		public void run() {
 			while (mRunning) {
 				try {
-					Frame newFrame = genFrame();
+					Frame newFrame = genFrame(Frame.MSG_TYPE_NONE);
 					pushToSendQueue(newFrame);
 					sleep(mWaitingPeriod);
 				} catch (InterruptedException e) {
