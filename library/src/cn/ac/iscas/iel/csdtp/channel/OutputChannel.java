@@ -30,10 +30,20 @@ public abstract class OutputChannel {
 	 */
 	protected ObjectMapper mMapper;
 
+	protected IChannelCallback mCallback;
+
 	public OutputChannel() {
 		this.mMapper = new ObjectMapper();
 	}
-	
+
+	public void setCallback(IChannelCallback callback) {
+		mCallback = callback;
+	}
+
+	public IChannelCallback getCallback() {
+		return mCallback;
+	}
+
 	public abstract void prepare();
 
 	/**

@@ -127,6 +127,10 @@ public class Device {
 	public void setOutputChannel(OutputChannel channel) {
 		this.mOutChannel = channel;
 	}
+	
+	public OutputChannel getOutputChannel() {
+		return mOutChannel;
+	}
 
 	/**
 	 * Start a new sample thread for sampling.

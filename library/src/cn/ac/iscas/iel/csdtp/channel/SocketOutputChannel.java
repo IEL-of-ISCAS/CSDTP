@@ -35,13 +35,10 @@ public class SocketOutputChannel extends OutputChannel {
 	protected String mIp;
 	protected int mPort;
 
-	protected IChannelCallback mCallback;
-
-	public SocketOutputChannel(String ip, int port, IChannelCallback callback) {
+	public SocketOutputChannel(String ip, int port) {
 		super();
 		mIp = ip;
 		mPort = port;
-		mCallback = callback;
 	}
 
 	@Override
