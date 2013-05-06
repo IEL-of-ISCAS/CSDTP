@@ -23,10 +23,6 @@ public class SensorData<TData> {
 
 	public static SensorData<?> INVALID_DATA = null;
 
-	public boolean isValidData() {
-		return !this.equals(INVALID_DATA);
-	}
-
 	protected String mSensorName;
 
 	public String getSensorName() {

@@ -74,6 +74,11 @@ public class Device {
 	protected int mSampleRate;
 
 	/**
+	 * Current message type
+	 */
+	protected int mCurrentMsgType = Frame.MSG_TYPE_NONE;
+
+	/**
 	 * The frames that will be sent
 	 */
 	protected ConcurrentLinkedQueue<Frame> mFrameOutQueue;
@@ -127,9 +132,17 @@ public class Device {
 	public void setOutputChannel(OutputChannel channel) {
 		this.mOutChannel = channel;
 	}
-	
+
 	public OutputChannel getOutputChannel() {
 		return mOutChannel;
+	}
+
+	public void setCurrentMsgType(int msgType) {
+		mCurrentMsgType = msgType;
+	}
+
+	public int getCurrentMsgType() {
+		return mCurrentMsgType;
 	}
 
 	/**
@@ -237,8 +250,8 @@ public class Device {
 		DataFrame theFrame = new DataFrame(Device.this, msgType);
 		for (Sensor sensor : mSensorList) {
 			SensorData<?> theData = sensor.getSnapshot();
-			if (theData != null && theData.isValidData()) { // Only send valid
-															// data
+			if (theData != null) { // Only send valid
+									// data
 				theFrame.addNewData(theData);
 			}
 		}
@@ -290,7 +303,7 @@ public class Device {
 		public void run() {
 			while (mRunning) {
 				try {
-					Frame newFrame = genFrame(Frame.MSG_TYPE_NONE);
+					Frame newFrame = genFrame(getCurrentMsgType());
 					pushToSendQueue(newFrame);
 					sleep(mWaitingPeriod);
 				} catch (InterruptedException e) {
