@@ -18,7 +18,13 @@ package cn.ac.iscas.iel.csdtp.data;
 public class ResponseData {
 
 	protected String mPhoneID;
-	protected String mStatus;
+	protected int mMsgType;
+	protected int mStatus;
+	protected String mErrorMsg;
+
+	public ResponseData() {
+		mErrorMsg = "";
+	}
 
 	public String getPhoneID() {
 		return mPhoneID;
@@ -28,12 +34,28 @@ public class ResponseData {
 		this.mPhoneID = phoneID;
 	}
 
-	public String getStatus() {
+	public int getMsgType() {
+		return mMsgType;
+	}
+
+	public void setMsgType(int msgType) {
+		this.mMsgType = msgType;
+	}
+
+	public int getStatus() {
 		return mStatus;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(int status) {
 		this.mStatus = status;
+	}
+
+	public String getErrorMsg() {
+		return mErrorMsg;
+	}
+
+	public void setErrorMsg(String msg) {
+		this.mErrorMsg = msg;
 	}
 
 }

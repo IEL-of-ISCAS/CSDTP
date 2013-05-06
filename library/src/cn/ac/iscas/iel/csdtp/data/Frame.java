@@ -94,5 +94,11 @@ public abstract class Frame {
 	public static final int MSG_TYPE_FLIGHTMANIPULATOR       = 15;
 	public static final int MSG_TYPE_UFOMANIPULATOR          = 16;
 	public static final int MSG_TYPE_NAVMANIPULATOR          = 17;
+	
+	/**
+	 * Status 
+	 */
+	public static final int STATUS_SUCCESS = 0;
+	public static final int STATUS_ERROR = 1;
 
 }
