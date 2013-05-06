@@ -50,11 +50,11 @@ public class ResponseData {
 		this.mStatus = status;
 	}
 
-	public String getErrorMsg() {
+	public String getError() {
 		return mErrorMsg;
 	}
 
-	public void setErrorMsg(String msg) {
+	public void setError(String msg) {
 		this.mErrorMsg = msg;
 	}
 

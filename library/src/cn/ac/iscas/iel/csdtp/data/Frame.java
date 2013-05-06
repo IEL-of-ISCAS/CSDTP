@@ -45,11 +45,11 @@ public abstract class Frame {
 		mDeviceName = deviceName;
 	}
 
-	public String getInnerUUID() {
+	public String getPhoneID() {
 		return mInnerUUID;
 	}
 
-	public void setInnerUUID(String innerUUID) {
+	public void setPhoneID(String innerUUID) {
 		mInnerUUID = innerUUID;
 	}
 
@@ -98,7 +98,7 @@ public abstract class Frame {
 	/**
 	 * Status 
 	 */
-	public static final int STATUS_SUCCESS = 0;
-	public static final int STATUS_ERROR = 1;
+	public static final int STATUS_SUCCESS = 1;
+	public static final int STATUS_ERROR = 0;
 
 }

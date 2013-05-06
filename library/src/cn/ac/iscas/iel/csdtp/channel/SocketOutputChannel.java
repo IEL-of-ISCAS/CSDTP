@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import org.codehaus.jackson.map.ObjectReader;
 import org.codehaus.jackson.map.ObjectWriter;
 
 import cn.ac.iscas.iel.csdtp.data.Frame;
@@ -72,8 +71,8 @@ public class SocketOutputChannel extends OutputChannel {
 				mOutStream.flush();
 
 				String responseDataStr = mInStream.readUTF();
-				ObjectReader reader = mMapper.reader();
-				ResponseData data = reader.readValue(responseDataStr);
+				ResponseData data = mMapper.readValue(responseDataStr,
+						ResponseData.class);
 				if (mCallback != null) {
 					mCallback.onResponse(data);
 				}
