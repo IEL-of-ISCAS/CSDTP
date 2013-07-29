@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="library/src"/>
+	<classpathentry kind="lib" path="client/libs/android-support-v4.jar"/>
+	<classpathentry kind="lib" path="client/libs/jackson-all-1.9.11.jar"/>
+	<classpathentry kind="lib" path="library/lib/jackson-all-1.9.11.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

@@ -15,15 +15,17 @@ package cn.ac.iscas.iel.csdtp.data;
  * @Date May 6, 2013 2:39:38 PM
  * @author voidmain
  */
-public class ResponseData {
-
+public class ResponseData extends JsonConvertableObject {
 	protected String mPhoneID;
 	protected int mMsgType;
 	protected int mStatus;
 	protected String mErrorMsg;
-
-	public ResponseData() {
-		mErrorMsg = "";
+	
+	public ResponseData(String phoneID, int msgType, int status, String errMsg) {
+		mPhoneID = phoneID;
+		mMsgType = msgType;
+		mStatus = status;
+		mErrorMsg = errMsg;
 	}
 
 	public String getPhoneID() {
@@ -32,6 +34,10 @@ public class ResponseData {
 
 	public void setPhoneID(String phoneID) {
 		this.mPhoneID = phoneID;
+	}
+
+	public ResponseData() {
+		mErrorMsg = "";
 	}
 
 	public int getMsgType() {
@@ -50,12 +56,16 @@ public class ResponseData {
 		this.mStatus = status;
 	}
 
-	public String getError() {
+	public String getErrorMsg() {
 		return mErrorMsg;
 	}
 
-	public void setError(String msg) {
+	public void setErrorMsg(String msg) {
 		this.mErrorMsg = msg;
 	}
 
+	public String toString() {
+		return String.format("phoneID:%s,msgType:%d,status:%d,errorMsg:%s",
+				mPhoneID, mMsgType, mStatus, mErrorMsg);
+	}
 }
